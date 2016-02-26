@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "co.edu.udea.compumovil.gr02.co.edu.udea.compumovil.gr8.lab1ui"
+        applicationId "co.edu.udea.compumovil.gr8.lab1ui"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
