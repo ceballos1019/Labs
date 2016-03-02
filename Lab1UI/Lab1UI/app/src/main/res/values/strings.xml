@@ -1,5 +1,5 @@
 <resources>
-        <string name="app_name">Lab1UI</string>
+           <string name="app_name">Lab1UI</string>
         <string name="Nombre">Nombre</string>
         <string name="Apellido">Apellido</string>
         <string name="Pais">Pais</string>
@@ -10,7 +10,7 @@
         <string name="Direccion">Direccion</string>
         <string name="Email">Email</string>
         <string name="hobbies">Hobbies</string>
-        <string name="fecha_de_nacimiento">Fecha de nacimiento: </string>
+        <string name="fecha_de_nacimiento">fecha de nacimiento</string>
         <string name="Mostrar">Mostrar</string>
         <string name="Informacion">Informacion</string>
         <string name="ejemplo">Has presionado el boton</string>
@@ -209,6 +209,8 @@
         <item>	Yibuti	</item>
         <item>	Zambia	</item>
         <item>	Zimbabue	</item>
+
+
         </string-array>
         <string-array name="hobbies">
         <item>Hacer deporte </item>
@@ -218,7 +220,7 @@
         <item>Escuchar musica</item>
         <item>Cantar</item>
         <item>Estudiar</item>
-        <item>Diseñar aplicaciones moviles  </item>
+        <item>Diseñar aplicaciones mobiles  </item>
         </string-array>
         <string name="nombre">Nombre: %1$s</string>
         <string name="apellido">\nApellido: %1$s</string>
@@ -228,5 +230,4 @@
         <string name="fecha_nacimiento">\nFecha nacimiento: %1$d/%2$d/%3$d</string>
         <string name="sexo">\nSexo: %1$s</string>
         <string name="pais">\nPais: %1$S</string>
-        <string name="strFecha">Establecer fecha de nacimiento</string>
 </resources>

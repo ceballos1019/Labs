@@ -209,8 +209,6 @@
         <item>	Yibuti	</item>
         <item>	Zambia	</item>
         <item>	Zimbabue	</item>
-
-
     </string-array>
     <string-array name="hobbies">
         <item>Practice sports</item>
@@ -230,4 +228,5 @@
     <string name="fecha_nacimiento">\nBirth date: %1$d/%2$d/%3$d</string>
     <string name="sexo">\nGender: %1$s</string>
     <string name="pais">\nCountry: %1$S</string>
+    <string name="strFecha">Establecer fecha de nacimiento</string>
 </resources>
