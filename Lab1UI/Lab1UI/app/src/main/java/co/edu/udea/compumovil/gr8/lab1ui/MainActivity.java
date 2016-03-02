@@ -1,7 +1,5 @@
 package co.edu.udea.compumovil.gr8.lab1ui;
 
-import android.app.DatePickerDialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -18,50 +16,41 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+public class MainActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
-
-    private AutoCompleteTextView autoComplete;
-    private ArrayAdapter<String> adapterPais;
-    private ArrayAdapter<String> adapterHobbies;
-    private Spinner listaHobbies;
-    private Button btnMostrar;
+    private AutoCompleteTextView autocomplete;
+    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapter2;
+    private Spinner lista;
+    private Button Mostrar;
     private TextView texto;
     private EditText nombre,apellido,telefono,direccion,email;
-    private TextView fechaNacimiento;
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    private int currentYear;
-    private CheckBox favorito;
+    private DatePicker datePicker;
+    private CheckBox checkbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        currentYear = getCurrentYear();
         establecerUI();
     }
 
     public void establecerUI(){
-
-        //Se obtiene el string usando getresources()
+        //Se obtiene el string usando getresources
         String pais[]= getResources().getStringArray(R.array.Pais);
         String hobbies[]= getResources().getStringArray(R.array.hobbies);
 
         //Crea adaptador
-        adapterPais=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,pais);
-        adapterHobbies= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,hobbies);
+        adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,pais);
+        adapter2= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,hobbies);
 
-        //Registrar autocomplete
-        autoComplete= (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        listaHobbies=(Spinner) findViewById(R.id.spinner);
-        btnMostrar=(Button) findViewById(R.id.button);
+        //Registra autocomplete
+        autocomplete= (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        lista=(Spinner) findViewById(R.id.spinner);
+        Mostrar=(Button) findViewById(R.id.button);
         texto=(TextView) findViewById(R.id.textView4);
-        favorito=(CheckBox) findViewById(R.id.checkBox);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+        checkbox=(CheckBox) findViewById(R.id.checkBox);
 
         //Identificar los demas views
         nombre=(EditText) findViewById(R.id.editText);
@@ -69,12 +58,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         telefono=(EditText)findViewById(R.id.editText3);
         direccion=(EditText)findViewById(R.id.editText4);
         email=(EditText)findViewById(R.id.editText5);
-        fechaNacimiento = (TextView) findViewById(R.id.textView3);
 
-        //Configurar adaptador para el autocomplete y el spinner
-        autoComplete.setAdapter(adapterPais);
-        autoComplete.setThreshold(1);
-        listaHobbies.setAdapter(adapterHobbies);
+        //Configurar adaptador para el autocomplete
+        autocomplete.setAdapter(adapter);
+        autocomplete.setThreshold(1);
+        lista.setAdapter(adapter2);
 
     }
 
@@ -83,10 +71,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         //Capturamos los datos ingresados
         String txtNombre = nombre.getText().toString();
         String txtApellido = apellido.getText().toString();
-        String txtPais = autoComplete.getText().toString();
+        String txtPais = autocomplete.getText().toString();
         String txtTelefono = telefono.getText().toString();
         String txtDireccion = direccion.getText().toString();
         String txtEmail = email.getText().toString();
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth() + 1;
+        int year = datePicker.getYear();
 
         //Validamos que todos los campos sean llenados
         boolean infoCompleta = true;
@@ -102,12 +93,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if(TextUtils.isEmpty(txtTelefono)) infoCompleta=false;
         if(TextUtils.isEmpty(txtDireccion)) infoCompleta=false;
         if(TextUtils.isEmpty(txtEmail)) infoCompleta=false;
-        if(mYear==0) infoCompleta=false;
         if(!infoCompleta) {
             Toast.makeText(this,"Revise que todos los campos esten completos",Toast.LENGTH_SHORT).show();
-            return;
-        }else if(mYear>currentYear){
-            Toast.makeText(this,"Ingrese una fecha de nacimiento valida",Toast.LENGTH_SHORT).show();
             return;
         }
         radioChecked = (RadioButton) findViewById(selectedRadio);
@@ -122,40 +109,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         texto.append(getString(R.string.telefono, txtTelefono));
         texto.append(getString(R.string.direccion, txtDireccion));
         texto.append(getString(R.string.email, txtEmail));
-        texto.append("\n"+listaHobbies.getSelectedItem().toString());
-        texto.append(getString(R.string.fecha_nacimiento,mDay,mMonth,mYear));
-        if(favorito.isChecked()){
+        texto.append(getString(R.string.fecha_nacimiento, day, month, year));
+        texto.append("\n"+lista.getSelectedItem().toString());
+        if(checkbox.isChecked()){
             texto.append("\nContacto favorito");
         }
 
 
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        mYear = year;
-        mMonth = monthOfYear;
-        mDay = dayOfMonth;
-        updateDisplay();
-    }
-
-    public int getCurrentYear(){
-        Calendar c = GregorianCalendar.getInstance();
-        Date actualDate= c.getTime();
-        c.setTime(actualDate);
-        int year=c.get(Calendar.YEAR);
-        return year;
-    }
-
-    public void onClick(View v){
-        DialogFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.show(getFragmentManager(), "datePicker");
-    }
-
-    private void updateDisplay() {
-        fechaNacimiento.setText(new StringBuilder().append("Fecha de nacimiento: ")
-                // Month is 0 based so add 1
-                .append(mDay).append("/").append(mMonth+1).append("/")
-                .append(mYear).append(" "));
     }
 }
